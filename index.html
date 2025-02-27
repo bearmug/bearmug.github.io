@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Custom fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-primary: #06b6d4;
+            --accent-secondary: #8b5cf6;
+            --tile-hover: rgba(148, 163, 184, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo::before {
+            content: '_';
+            position: absolute;
+            right: -15px;
+            color: var(--accent-primary);
+            animation: cursor-blink 1s infinite;
+        }
+
+        .logo-accent {
+            color: var(--accent-primary);
+            margin-right: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--accent-primary);
+            transform: translateY(-3px);
+        }
+
+        .hero {
+            padding: 2rem 0 4rem;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 span {
+            display: block;
+            font-weight: 300;
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tiles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .tile {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 320px;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .tile-accent {
+            height: 5px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .tile-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tile-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .tile-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .tile-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: auto;
+        }
+
+        .tile-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.2rem;
+            max-width: 70%;
+        }
+
+        .tile-tech-badge {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.35rem;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.05);
+            white-space: nowrap;
+            margin-bottom: 0.5rem;
+        }
+
+        .tile-links {
+            margin-left: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .tile-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .tile-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .add-tile {
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: transparent;
+            min-height: 320px;
+        }
+
+        .add-tile i {
+            font-size: 2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .add-tile-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .add-tile:hover i {
+            color: var(--accent-primary);
+        }
+
+        .add-tile:hover {
+            background-color: var(--tile-hover);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes cursor-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero, .tiles-container, .tile {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .tiles-container {
+            animation-delay: 0.2s;
+        }
+
+        .tile:nth-child(1) { animation-delay: 0.3s; }
+        .tile:nth-child(2) { animation-delay: 0.4s; }
+        .tile:nth-child(3) { animation-delay: 0.5s; }
+        .tile:nth-child(4) { animation-delay: 0.6s; }
+        .tile:nth-child(5) { animation-delay: 0.7s; }
+        .tile:nth-child(6) { animation-delay: 0.8s; }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero h1 span {
+                font-size: 1.5rem;
+            }
+            
+            .tiles-container {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .social-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .tiles-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="logo-accent">{</span>dev<span class="logo-accent">}</span>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/bearmug" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/pavel-fadeev" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:pavel.fadeev@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1><span>Software Engineer</span> Creating <span class="gradient-text">Meaningful</span> Solutions with Purpose</h1>
+            <p>Dedicated to solving real-world problems with a focus on positive impact and mission-driven results. Combining creative thinking with scalable engineering practices to build solutions that grow and evolve with purpose.</p>
+        </section>
+
+        <div class="tiles-container">
+            <!-- GraalVM Experiments -->
+            <div class="tile">
+                <div class="tile-accent"></div>
+                <div class="tile-content">
+                    <h3 class="tile-title">GraalVM Experiments</h3>
+                    <p class="tile-description">
+                        Experimenting with serverless applications using GraalVM native images for optimized deployments in AWS Lambda and Google Cloud Functions. Focus on cold start times and resource efficiency.
+                    </p>
+                    <div class="tile-footer">
+                        <div class="tile-tech">
+                            <span class="tile-tech-badge">Java/Kotlin</span>
+                            <span class="tile-tech-badge">GraalVM</span>
+                            <span class="tile-tech-badge">AWS/GCP</span>
+                        </div>
+                        <div class="tile-links">
+                            <a href="https://github.com/bearmug/serverless-playground" class="tile-link" aria-label="View code"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Erlang OSS Project -->
+            <div class="tile">
+                <div class="tile-accent"></div>
+                <div class="tile-content">
+                    <h3 class="tile-title">Database Schema Migrations</h3>
+                    <p class="tile-description">
+                        PostgreSQL/MySQL database migration toolkit built with Erlang. Designed with functional purity in mind - side effects are deliberately externalized, making migrations transactional, composable and predictable. Compatible with multiple database libraries.
+                    </p>
+                    <div class="tile-footer">
+                        <div class="tile-tech">
+                            <span class="tile-tech-badge">Erlang</span>
+                            <span class="tile-tech-badge">PostgreSQL</span>
+                            <span class="tile-tech-badge">MySQL</span>
+                        </div>
+                        <div class="tile-links">
+                            <a href="https://github.com/bearmug/erlang-pure-migrations" class="tile-link" aria-label="View code"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather App -->
+            <div class="tile">
+                <div class="tile-accent"></div>
+                <div class="tile-content">
+                    <h3 class="tile-title">Wonder Weather App</h3>
+                    <p class="tile-description">
+                        A beautiful, minimalist weather forecast application. Features include automatic geolocation, location search, responsive design, and clean Material Design UI with smooth animations and transitions.
+                    </p>
+                    <div class="tile-footer">
+                        <div class="tile-tech">
+                            <span class="tile-tech-badge">HTML/CSS/JS</span>
+                            <span class="tile-tech-badge">OpenWeather API</span>
+                        </div>
+                        <div class="tile-links">
+                            <a href="https://github.com/bearmug/wonder-weather" class="tile-link" aria-label="View code"><i class="fab fa-github"></i></a>
+                            <a href="https://bearmug.github.io/wonder-weather/" class="tile-link" aria-label="View demo"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mario Brick Game -->
+            <div class="tile">
+                <div class="tile-accent"></div>
+                <div class="tile-content">
+                    <h3 class="tile-title">Super Brick Mario</h3>
+                    <p class="tile-description">
+                        A web-based game inspired by classic platformers, built with TypeScript and Vite. Features HTML5 Canvas-based gameplay with nostalgic Mario-style graphics and mechanics.
+                    </p>
+                    <div class="tile-footer">
+                        <div class="tile-tech">
+                            <span class="tile-tech-badge">TypeScript</span>
+                            <span class="tile-tech-badge">Vite</span>
+                            <span class="tile-tech-badge">HTML5 Canvas</span>
+                        </div>
+                        <div class="tile-links">
+                            <a href="https://github.com/bearmug/super-brick-mario" class="tile-link" aria-label="View code"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photo Gallery -->
+            <div class="tile">
+                <div class="tile-accent"></div>
+                <div class="tile-content">
+                    <h3 class="tile-title">Photography Gallery</h3>
+                    <p class="tile-description">
+                        A responsive Jekyll-based photo gallery website with a clean layout and elegant presentation. Features image collections, journal entries, and integrated search functionality.
+                    </p>
+                    <div class="tile-footer">
+                        <div class="tile-tech">
+                            <span class="tile-tech-badge">HTML/JS/CSS</span>
+                            <span class="tile-tech-badge">Jekyll</span>
+                        </div>
+                        <div class="tile-links">
+                            <a href="https://github.com/bearmug/ph" class="tile-link" aria-label="View code"><i class="fab fa-github"></i></a>
+                            <a href="https://bearmug.github.io/ph" class="tile-link" aria-label="View demo"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add New Project Tile -->
+            <div class="tile add-tile">
+                <i class="fas fa-plus-circle"></i>
+                <span class="add-tile-text">More coming soon...</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© <span id="current-year"></span> bearmug — Made with <span style="color: #e25555;">❤</span> and code</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Tile hover effect enhancement
+        const tiles = document.querySelectorAll('.tile:not(.add-tile)');
+        tiles.forEach(tile => {
+            tile.addEventListener('mouseenter', function() {
+                const accent = this.querySelector('.tile-accent');
+                accent.style.height = '8px';
+                setTimeout(() => {
+                    accent.style.height = '5px';
+                }, 300);
+            });
+        });
+
+        // Typing effect for the logo
+        const logoElement = document.querySelector('.logo');
+        const phrases = ['Developer', 'Designer', 'Engineer', 'Creator'];
+        let currentPhrase = 0;
+        let currentChar = 0;
+        let isDeleting = false;
+        let isPaused = false;
+        let typingSpeed = 100; // Base typing speed
+        
+        function typeEffect() {
+            // Get the current phrase
+            const currentText = phrases[currentPhrase];
+            
+            // Set typing speed based on action
+            if (isDeleting) {
+                typingSpeed = 50; // Faster when deleting
+            } else {
+                typingSpeed = 100 + Math.random() * 50; // Slightly random typing speed for realism
+            }
+            
+            // Handle pausing at the end of a phrase
+            if (!isDeleting && currentChar === currentText.length) {
+                // Pause at the end of the phrase
+                typingSpeed = 2000; // Pause for 2 seconds
+                isPaused = true;
+                setTimeout(() => {
+                    isPaused = false;
+                    isDeleting = true;
+                }, typingSpeed);
+            } else if (isDeleting && currentChar === 0) {
+                // Move to the next phrase when deletion is complete
+                isDeleting = false;
+                currentPhrase = (currentPhrase + 1) % phrases.length;
+            }
+            
+            // Update logo text content
+            if (!isPaused) {
+                logoElement.innerHTML = `<span class="logo-accent">{</span>${isDeleting ? currentText.substring(0, currentChar) : currentText.substring(0, currentChar)}<span class="logo-accent">}</span>`;
+                
+                // Update current character position
+                if (isDeleting) {
+                    currentChar--;
+                } else {
+                    currentChar++;
+                }
+            }
+            
+            // Schedule the next update
+            setTimeout(typeEffect, typingSpeed);
+        }
+        
+        // Start the typing effect
+        setTimeout(typeEffect, 1000); // Start after 1 second
+
+        // Add parallax effect to floating shapes
+        document.addEventListener('mousemove', function(e) {
+            const shapes = document.querySelectorAll('.shape');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            shapes.forEach((shape, index) => {
+                // Different parallax factor for each shape
+                const factor = (index + 1) * 20;
+                const x = (mouseX - 0.5) * factor;
+                const y = (mouseY - 0.5) * factor;
+                
+                shape.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Animate tiles on scroll
+        function checkScroll() {
+            const tiles = document.querySelectorAll('.tile');
+            
+            tiles.forEach(tile => {
+                const tileTop = tile.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (tileTop < windowHeight * 0.9) {
+                    tile.style.opacity = '1';
+                    tile.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initialize animation when window loads
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+            checkScroll(); // Check for tiles in view on initial load
+        });
+        
+        // Check for tiles in view when scrolling
+        window.addEventListener('scroll', checkScroll);
+    </script>
+</body>
+</html> 
